@@ -1,31 +1,31 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { login } from '../api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
 
     try {
       const data = await login(email, password);
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+      toast.success('Login successful!');
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message);
     }
   };
 
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1>Welcome Back</h1>
+        <h1>Welcome User</h1>
         <p>Log in to manage your favourites</p>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -49,7 +49,6 @@ const Login = () => {
             />
           </div>
           <button type="submit" className="btn">Log In</button>
-          {error && <p className="error-message">{error}</p>}
         </form>
         <Link to="/register" className="auth-link">
           Don't have an account? Register

@@ -16,7 +16,7 @@ app.use(cors({
 
 // Root Route
 app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Buyer Portal API is running. Use /api routes for functionality.' });
+  res.status(200).json({ message: 'Buyer Portal API is running.' });
 });
 
 // Routes

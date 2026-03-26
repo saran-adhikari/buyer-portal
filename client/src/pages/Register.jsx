@@ -1,28 +1,25 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { register } from '../api';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
 
     try {
       await register(name, email, password);
-      setSuccess('Account created successfully! Redirecting...');
+      toast.success('Account created successfully!');
       setTimeout(() => {
         navigate('/login');
       }, 1500);
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -63,8 +60,6 @@ const Register = () => {
             />
           </div>
           <button type="submit" className="btn">Register</button>
-          {error && <p className="error-message">{error}</p>}
-          {success && <p className="success-message">{success}</p>}
         </form>
         <Link to="/login" className="auth-link">
           Already have an account? Log in
